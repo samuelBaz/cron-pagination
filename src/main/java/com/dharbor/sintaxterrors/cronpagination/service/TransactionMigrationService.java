@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
-//@Slf4j
+@Slf4j
 @Service
 public class TransactionMigrationService {
     private final TransactionDayRepository transactionDayRepository;
@@ -32,7 +32,7 @@ public class TransactionMigrationService {
     @Scheduled(cron = "${transaction.migration.cron}")
     @Transactional
     public void migrateDailyTransactionsToHistory() {
-//        log.info("Starting daily transactions migration to history");
+        log.info("Starting daily transactions migration to history");
         
         // Get all transactions from current day
         LocalDateTime startOfDay = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
@@ -50,7 +50,7 @@ public class TransactionMigrationService {
         // Delete daily transactions
         transactionDayRepository.deleteAll(dailyTransactions);
         
-//        log.info("Migration completed successfully. {} transactions moved to history", dailyTransactions.size());
+        log.info("Migration completed successfully. {} transactions moved to history", dailyTransactions.size());
     }
 
     private TransactionHistoryEntity convertToHistoryEntity(TransactionDayEntity dailyTransaction) {
